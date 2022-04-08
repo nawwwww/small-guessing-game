@@ -7,14 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A guessing game</title>
     <style>
-
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
     </style>
 </head>
 
 <body>
-    <div>
+    <div class="complexityWrapper">
         <label for="complexityInput">Select a number between 2 and 1024(game difficulty)</label>
-        <input id="complexityInput" />
+        <input id="complexityInput" type="number" />
         <button id="confirm">Confirm</button>
     </div>
     <div class="wrapper"></div>
@@ -22,10 +26,17 @@
     <script>
         window.addEventListener("load", function (event) {
 
-            let difficlulty = undefined;
+            // variable to store difficulty settings
+            let difficulty = undefined;
 
+            // event listener(onClick) to apply difficulty settings
             document.querySelector("#confirm").addEventListener("click", function () {
                 difficulty = Number(document.querySelector("#complexityInput").value);
+
+                // hide difficulty button, if difficulty value is acceptable
+                if (difficulty < 1024 && difficulty > 0) {
+                    document.querySelector(".complexityWrapper").style.display = "none";
+                }
             });
 
         })
