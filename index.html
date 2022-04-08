@@ -12,6 +12,16 @@
             -webkit-appearance: none;
             margin: 0;
         }
+
+        .gameFieldWrapper {
+        }
+
+        .gameElement {
+            border: 1px solid black;
+            margin: 5px;
+            float: left;
+            background-color: cornflowerblue;
+        }
     </style>
 </head>
 
@@ -28,14 +38,31 @@
 
             // variable to store difficulty settings
             let difficulty = undefined;
+            // variable to store array of game elements
+            let gameField = [];
 
+            function create_game_element(parentElement, i) {
+                let el = document.createElement('div');
+                el.innerText = i + 1;
+                el.classList.add("gameElement");
+                parentElement.append(el);
+            }
+            
+            function render_game_elements(difficulty) {
+                const parentElement = document.querySelector(".gameFieldWrapper");
+                for (let i = 0; i < difficulty; i++) {
+                    create_game_element(parentElement, i);
+                    gameField.push(i+1);
+                }
+            }
             // event listener(onClick) to apply difficulty settings
             document.querySelector("#confirm").addEventListener("click", function () {
                 difficulty = Number(document.querySelector("#complexityInput").value);
 
-                // hide difficulty button, if difficulty value is acceptable
-                if (difficulty < 1024 && difficulty > 0) {
+                // hide difficulty button, if difficulty value is acceptable and render game elements
+                if (difficulty <= 1024 && difficulty > 0) {
                     document.querySelector(".complexityWrapper").style.display = "none";
+                    render_game_elements(difficulty);
                 }
             });
 
