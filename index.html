@@ -39,11 +39,30 @@
             color: whitesmoke;
             background-color: yellowgreen;
         }
+        ul {
+            border: 1px solid black;
+        }
+        b {
+            color: cornflowerblue;
+            font-size: 30px;
+            font-weight: 600;
+        }
     </style>
 </head>
 
 <body>
     <div class="complexityWrapper">
+
+        <ul>
+            <b>Rules:</b>
+            <li>Computer creates some random number between 1 and difficulty that you input</li>
+            <li>You should try to guess that number with the lowest amount of attempts</li>
+            <li>If the number that you click is higher than the number that computer created, then all numbers above the
+                one you picked will be removed</li>
+            <li>Same as above - if the number that you click is lower than the number that computer created, then all numbers below the
+                one you picked will be removed</li>
+            <li>Good luck! :D</li>
+        </ul>
         <label for="complexityInput">Select a number between 2 and 1024 (game difficulty)</label>
         <input id="complexityInput" type="number" />
         <button id="confirm">Confirm</button>
@@ -68,28 +87,31 @@
                 let el = document.createElement('div');
                 el.innerText = i + 1;
                 el.classList.add("gameElement");
+                
+                // event listener with very simple game logic
                 el.addEventListener("click", function (event) {
                     currentGuessElement = event.target;
                     currentGuessValue = Number(event.target.innerText);
 
                     if (currentGuessValue == guessNumber) {
                         currentGuessElement.classList.add("winElement");
-                        
+
+                        // insert element with win message
                         let displayWinElement = document.createElement('div');
                         displayWinElement.innerText = `Congratulations!!! Correct number is ${currentGuessValue}`;
                         displayWinElement.classList.add("displayWin");
-                        document.querySelector("body").insertBefore(displayWinElement, parentElement); 
+                        document.querySelector("body").insertBefore(displayWinElement, parentElement);
                     }
-                    
+
                     else if (currentGuessValue > guessNumber) {
-                        while(currentGuessElement.nextSibling) {
+                        while (currentGuessElement.nextSibling) {
                             currentGuessElement.nextSibling.remove();
                         }
                         currentGuessElement.remove();
                     }
-                    
+
                     else if (currentGuessValue < guessNumber) {
-                        while(currentGuessElement.previousSibling) {
+                        while (currentGuessElement.previousSibling) {
                             currentGuessElement.previousSibling.remove();
                         }
                         currentGuessElement.remove();
