@@ -50,6 +50,7 @@
             color: whitesmoke;
             font-size: 30px;
             font-weight: 400;
+        }
         ul {
             border: 1px solid black;
         }
@@ -67,7 +68,6 @@
         <div></div>
     </div>
     <div class="complexityWrapper">
-
         <ul>
             <b>Rules:</b>
             <li>Computer creates some random number between 1 and difficulty that you input</li>
@@ -83,7 +83,6 @@
         <button id="confirm">Confirm</button>
     </div>
     <div class="gameFieldWrapper"></div>
-
 
     <script>
         window.addEventListener("load", function (event) {
@@ -129,8 +128,8 @@
                         displayWinElement.innerText = `Congratulations!!! Correct number is ${currentGuessValue}. It took you ${attemptsCount} attempts`;
                         displayWinElement.classList.add("displayWin");
                         document.querySelector("body").insertBefore(displayWinElement, parentElement);
-
-                        
+                        // now I removed onClick event listener so we won't get duplicated messages after clicking same element after win
+                        this.removeEventListener('click', arguments.callee);
                     }
 
                     else if (currentGuessValue > guessNumber) {
@@ -171,7 +170,6 @@
                     document.querySelector(".info").style.display = "flex";
                 }
             });
-
         })
     </script>
 </body>
