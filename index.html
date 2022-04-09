@@ -39,16 +39,33 @@
             color: whitesmoke;
             background-color: yellowgreen;
         }
+
+        .info {
+            display: none;
+            justify-content: space-around;
+            align-items: center;
+            background-color: yellowgreen;
+        }
+        .info:nth-child(1) {
+            color: whitesmoke;
+            font-size: 30px;
+            font-weight: 400;
+        }
     </style>
 </head>
 
 <body>
+    <div class="info">
+        <div></div>
+        <div></div>
+    </div>
     <div class="complexityWrapper">
         <label for="complexityInput">Select a number between 2 and 1024 (game difficulty)</label>
         <input id="complexityInput" type="number" />
         <button id="confirm">Confirm</button>
     </div>
     <div class="gameFieldWrapper"></div>
+
 
     <script>
         window.addEventListener("load", function (event) {
@@ -59,8 +76,15 @@
             let gameField = [];
             let guessNumber = undefined;
 
+            let attemptsCount = 0;
+
             function getRandomInt(difficulty) {
                 return Math.floor(Math.random() * difficulty) + 1;
+            }
+
+            function displayAttempts() {
+                attemptsCount++;
+                document.querySelector(".info").childNodes[1].innerText = "Your attempts: " + attemptsCount;
             }
 
             function create_game_element(parentElement, i) {
@@ -71,24 +95,31 @@
                     currentGuessElement = event.target;
                     currentGuessValue = Number(event.target.innerText);
 
+                    displayAttempts(attemptsCount);
+
                     if (currentGuessValue == guessNumber) {
+                        //remove attempts counter
+                        document.querySelector(".info").childNodes[1].style.display="none";
+                        // changed style of correct element
                         currentGuessElement.classList.add("winElement");
-                        
+
                         let displayWinElement = document.createElement('div');
-                        displayWinElement.innerText = `Congratulations!!! Correct number is ${currentGuessValue}`;
+                        displayWinElement.innerText = `Congratulations!!! Correct number is ${currentGuessValue}. It took you ${attemptsCount} attempts`;
                         displayWinElement.classList.add("displayWin");
-                        document.querySelector("body").insertBefore(displayWinElement, parentElement); 
+                        document.querySelector("body").insertBefore(displayWinElement, parentElement);
+
+                        
                     }
-                    
+
                     else if (currentGuessValue > guessNumber) {
-                        while(currentGuessElement.nextSibling) {
+                        while (currentGuessElement.nextSibling) {
                             currentGuessElement.nextSibling.remove();
                         }
                         currentGuessElement.remove();
                     }
-                    
+
                     else if (currentGuessValue < guessNumber) {
-                        while(currentGuessElement.previousSibling) {
+                        while (currentGuessElement.previousSibling) {
                             currentGuessElement.previousSibling.remove();
                         }
                         currentGuessElement.remove();
@@ -114,6 +145,7 @@
                     render_game_elements(difficulty);
                     guessNumber = getRandomInt(difficulty);
                     console.log(guessNumber);
+                    document.querySelector(".info").style.display = "flex";
                 }
             });
 
