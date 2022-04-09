@@ -31,6 +31,14 @@
             height: 60px;
             color: whitesmoke;
         }
+
+        .displayWin {
+            font-size: 40px;
+            font-family: fantasy;
+            font-weight: 300;
+            color: whitesmoke;
+            background-color: yellowgreen;
+        }
     </style>
 </head>
 
@@ -63,11 +71,14 @@
                 el.addEventListener("click", function (event) {
                     currentGuessElement = event.target;
                     currentGuessValue = Number(event.target.innerText);
-                    let nodeList = parentElement.childNodes;
 
                     if (currentGuessValue == guessNumber) {
                         currentGuessElement.classList.add("winElement");
-                        alert("WIN!!!");  
+                        
+                        let displayWinElement = document.createElement('div');
+                        displayWinElement.innerText = `Congratulations!!! Correct number is ${currentGuessValue}`;
+                        displayWinElement.classList.add("displayWin");
+                        document.querySelector("body").insertBefore(displayWinElement, parentElement); 
                     }
                     
                     else if (currentGuessValue > guessNumber) {
