@@ -50,6 +50,13 @@
             color: whitesmoke;
             font-size: 30px;
             font-weight: 400;
+        ul {
+            border: 1px solid black;
+        }
+        b {
+            color: cornflowerblue;
+            font-size: 30px;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -60,6 +67,17 @@
         <div></div>
     </div>
     <div class="complexityWrapper">
+
+        <ul>
+            <b>Rules:</b>
+            <li>Computer creates some random number between 1 and difficulty that you input</li>
+            <li>You should try to guess that number with the lowest amount of attempts</li>
+            <li>If the number that you click is higher than the number that computer created, then all numbers above the
+                one you picked will be removed</li>
+            <li>Same as above - if the number that you click is lower than the number that computer created, then all numbers below the
+                one you picked will be removed</li>
+            <li>Good luck! :D</li>
+        </ul>
         <label for="complexityInput">Select a number between 2 and 1024 (game difficulty)</label>
         <input id="complexityInput" type="number" />
         <button id="confirm">Confirm</button>
@@ -70,14 +88,14 @@
     <script>
         window.addEventListener("load", function (event) {
 
-            // variable to store difficulty settings
+            // a variable to store difficulty settings
             let difficulty = undefined;
-            // variable to store array of game elements
-            let gameField = [];
+            // a variable to store the number the player has to guess
             let guessNumber = undefined;
 
             let attemptsCount = 0;
 
+            // a function to create guessNumber variable
             function getRandomInt(difficulty) {
                 return Math.floor(Math.random() * difficulty) + 1;
             }
@@ -87,10 +105,13 @@
                 document.querySelector(".info").childNodes[1].innerText = "Your attempts: " + attemptsCount;
             }
 
+            // a function to create game elements
             function create_game_element(parentElement, i) {
                 let el = document.createElement('div');
                 el.innerText = i + 1;
                 el.classList.add("gameElement");
+                
+                // event listener with very simple game logic
                 el.addEventListener("click", function (event) {
                     currentGuessElement = event.target;
                     currentGuessValue = Number(event.target.innerText);
@@ -103,6 +124,7 @@
                         // changed style of correct element
                         currentGuessElement.classList.add("winElement");
 
+                        // insert element with win message
                         let displayWinElement = document.createElement('div');
                         displayWinElement.innerText = `Congratulations!!! Correct number is ${currentGuessValue}. It took you ${attemptsCount} attempts`;
                         displayWinElement.classList.add("displayWin");
@@ -128,11 +150,11 @@
                 parentElement.append(el);
             }
 
+            // function to render all game elements on the screen
             function render_game_elements(difficulty) {
                 const parentElement = document.querySelector(".gameFieldWrapper");
                 for (let i = 0; i < difficulty; i++) {
                     create_game_element(parentElement, i);
-                    gameField.push(i + 1);
                 }
             }
             // event listener(onClick) to apply difficulty settings
@@ -143,6 +165,7 @@
                 if (difficulty <= 1024 && difficulty > 0) {
                     document.querySelector(".complexityWrapper").style.display = "none";
                     render_game_elements(difficulty);
+                    // created random value (the one you should guess)
                     guessNumber = getRandomInt(difficulty);
                     console.log(guessNumber);
                     document.querySelector(".info").style.display = "flex";
