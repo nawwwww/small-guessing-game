@@ -13,13 +13,23 @@
             margin: 0;
         }
 
-        .gameFieldWrapper {}
-
         .gameElement {
             border: 1px solid black;
             margin: 5px;
             float: left;
             background-color: cornflowerblue;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .winElement {
+            background-color: yellowgreen;
+            width: 60px;
+            height: 60px;
+            color: whitesmoke;
         }
     </style>
 </head>
@@ -49,6 +59,30 @@
                 let el = document.createElement('div');
                 el.innerText = i + 1;
                 el.classList.add("gameElement");
+                el.addEventListener("click", function (event) {
+                    currentGuessElement = event.target;
+                    currentGuessValue = Number(event.target.innerText);
+                    let nodeList = parentElement.childNodes;
+
+                    if (currentGuessValue == guessNumber) {
+                        currentGuessElement.classList.add("winElement");
+                        alert("WIN!!!");  
+                    }
+                    
+                    else if (currentGuessValue > guessNumber) {
+                        while(currentGuessElement.nextSibling) {
+                            currentGuessElement.nextSibling.remove();
+                        }
+                        currentGuessElement.remove();
+                    }
+                    
+                    else if (currentGuessValue < guessNumber) {
+                        while(currentGuessElement.previousSibling) {
+                            currentGuessElement.previousSibling.remove();
+                        }
+                        currentGuessElement.remove();
+                    }
+                })
                 parentElement.append(el);
             }
 
@@ -68,6 +102,7 @@
                     document.querySelector(".complexityWrapper").style.display = "none";
                     render_game_elements(difficulty);
                     guessNumber = getRandomInt(difficulty);
+                    console.log(guessNumber);
                 }
             });
 
